@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-<title>Block Blast Duel - Expanded</title>
+<title>Block Blast Duel - Pro Edition</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
 <style>
@@ -20,6 +20,8 @@
     --gold:#ffd166;
     --danger:#ff5c5c;
     --good:#5cd85a;
+    --grid-border: 1px solid var(--line);
+    --preview-opacity: 0.35;
   }
 
   /* Themes */
@@ -44,6 +46,10 @@
     --muted:#73a89e;
     --p1:#10ac84;
     --p2:#1dd1a1;
+  }
+
+  body.no-grid-lines {
+    --grid-border: none;
   }
 
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
@@ -82,7 +88,7 @@
 
   /* ---------- Home ---------- */
   #home{justify-content:center; align-items:center; text-align:center; gap:0;}
-  .blast-icon{display:grid; grid-template-columns:repeat(3,16px); grid-template-rows:repeat(3,16px); gap:4px; margin-bottom:18px;}
+  .blast-icon{display:grid; grid-template-columns:repeat(3,16px); grid-template-rows:repeat(3,16px); gap:4px; margin-bottom:14px;}
   .blast-icon span{border-radius:4px; box-shadow:inset 0 -2px 0 rgba(0,0,0,.25), 0 0 10px rgba(76,224,210,.25);}
   .blast-icon span:nth-child(1){background:var(--p1);}
   .blast-icon span:nth-child(2){background:var(--p1);}
@@ -96,7 +102,25 @@
 
   h1.title{font-size:30px; font-weight:700; letter-spacing:.5px; margin:0 0 4px;}
   h1.title .accent{color:var(--p1);}
-  .subtitle{color:var(--muted); font-size:13.5px; margin:0 0 24px; max-width:320px; line-height:1.4;}
+  .subtitle{color:var(--muted); font-size:13.5px; margin:0 0 16px; max-width:320px; line-height:1.4;}
+
+  /* Highscore Display Banner */
+  .highscore-bar{
+    background:var(--panel-alt); border:1px solid var(--line); border-radius:12px;
+    padding:8px 16px; font-size:13px; font-weight:600; color:var(--gold);
+    display:flex; align-items:center; gap:8px; margin-bottom:12px;
+  }
+
+  /* Win Counter Display Banner */
+  .wincount-bar{
+    background:var(--panel); border:1px solid var(--line); border-radius:12px;
+    padding:8px 16px; font-size:12px; font-weight:600; color:var(--text);
+    display:flex; align-items:center; justify-content:space-around; width:100%; margin-bottom:16px;
+  }
+  .wincount-item{display:flex; align-items:center; gap:6px;}
+  .wincount-val{font-weight:700; font-size:14px;}
+  .wincount-val.p1{color:var(--p1);}
+  .wincount-val.p2{color:var(--p2);}
 
   .home-actions{width:100%; display:flex; flex-direction:column; gap:10px;}
   .btn-primary, .btn-secondary, .btn-accent{
@@ -140,6 +164,28 @@
   .dot-spin{width:8px; height:8px; border-radius:50%; background:var(--p1); animation:pulse 1s ease-in-out infinite;}
   @keyframes pulse{0%,100%{opacity:.3; transform:scale(.8);} 50%{opacity:1; transform:scale(1.15);}}
 
+  /* ---------- Leaderboard UI ---------- */
+  .leaderboard-card{
+    width:100%; background:var(--panel); border:1px solid var(--line); border-radius:16px;
+    padding:14px; margin-top:14px; text-align:left;
+  }
+  .leaderboard-title{
+    font-size:14px; font-weight:700; color:var(--gold); display:flex; align-items:center;
+    justify-content:space-between; margin-bottom:10px;
+  }
+  .leaderboard-list{display:flex; flex-direction:column; gap:6px;}
+  .leaderboard-item{
+    display:flex; align-items:center; justify-content:space-between;
+    background:var(--panel-alt); border:1px solid var(--line); border-radius:8px;
+    padding:8px 10px; font-size:12.5px;
+  }
+  .leaderboard-rank{font-weight:700; width:24px; color:var(--muted);}
+  .leaderboard-rank.top1{color:var(--gold);}
+  .leaderboard-rank.top2{color:#c0c0c0;}
+  .leaderboard-rank.top3{color:#cd7f32;}
+  .leaderboard-name{flex:1; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin:0 8px;}
+  .leaderboard-score{font-weight:700; font-family:'Space Grotesk',sans-serif; color:var(--p1);}
+
   /* ---------- Game screen ---------- */
   #game{padding-top:14px; gap:10px;}
   .topbar{display:flex; align-items:center; justify-content:space-between; gap:10px;}
@@ -164,6 +210,9 @@
   .player-card .score{font-size:24px; font-weight:700; font-family:'Space Grotesk',sans-serif; margin-top:2px;}
   .player-card.me .score{color:var(--p1);}
   .player-card.opp .score{color:var(--p2);}
+  .best-tag{font-size:10px; color:var(--gold); font-weight:600; margin-top:2px;}
+  .win-tag{font-size:10.5px; color:var(--p1); font-weight:700; margin-top:2px; display:inline-block; background:rgba(76,224,210,0.12); padding:2px 6px; border-radius:6px; border:1px solid rgba(76,224,210,0.25);}
+  .player-card.opp .win-tag{color:var(--p2); background:rgba(255,79,163,0.12); border-color:rgba(255,79,163,0.25);}
 
   .banner{
     display:none; background:var(--panel-alt); border:1px solid var(--line); border-radius:12px;
@@ -179,11 +228,12 @@
   .board.grid-10{ grid-template-columns:repeat(10,1fr); grid-template-rows:repeat(10,1fr); gap:2px; }
   .cell{
     background:var(--cell); border-radius:4px; box-shadow:inset 0 -2px 0 rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.03);
-    transition:background .08s ease, box-shadow .08s ease;
+    border: var(--grid-border); transition:background .08s ease, box-shadow .08s ease;
+    background-size: cover; background-position: center;
   }
   .cell.filled{box-shadow:inset 0 -3px 0 rgba(0,0,0,.35), inset 0 2px 0 rgba(255,255,255,.18);}
-  .cell.preview-ok{background:rgba(76,224,210,.35); box-shadow:inset 0 0 0 2px var(--p1);}
-  .cell.preview-bad{background:rgba(255,92,92,.28); box-shadow:inset 0 0 0 2px var(--danger);}
+  .cell.preview-ok{background-color:rgba(76,224,210, var(--preview-opacity)) !important; box-shadow:inset 0 0 0 2px var(--p1);}
+  .cell.preview-bad{background-color:rgba(255,92,92, var(--preview-opacity)) !important; box-shadow:inset 0 0 0 2px var(--danger);}
 
   .tray{display:flex; gap:10px; justify-content:space-between;}
   .tray-slot{
@@ -192,11 +242,17 @@
   }
   .tray-slot.empty{opacity:.35;}
   .tray-slot .mini-grid{display:grid; gap:2px;}
-  .tray-slot .mini-cell{border-radius:3px; box-shadow:inset 0 -2px 0 rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.15);}
+  .tray-slot .mini-cell{
+    border-radius:3px; box-shadow:inset 0 -2px 0 rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.15);
+    background-size: cover; background-position: center;
+  }
   .tray-slot.dragging{opacity:.25;}
 
   .ghost-piece{position:fixed; pointer-events:none; z-index:999; display:grid; gap:3px;}
-  .ghost-piece .g-cell{border-radius:5px; box-shadow:inset 0 -2px 0 rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.2);}
+  .ghost-piece .g-cell{
+    border-radius:5px; box-shadow:inset 0 -2px 0 rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.2);
+    background-size: cover; background-position: center;
+  }
 
   .game-bottom-actions{display:flex; justify-content:center; gap:12px; margin-top:2px;}
   .action-link{color:var(--muted); font-size:12px; text-decoration:underline; text-underline-offset:3px; background:none; padding:4px;}
@@ -205,17 +261,22 @@
   .toast{
     position:fixed; left:50%; top:16px; transform:translateX(-50%); background:var(--panel-alt);
     border:1px solid var(--line); border-radius:12px; padding:10px 16px; font-size:13px; z-index:1200;
-    box-shadow:0 8px 24px rgba(0,0,0,.4); opacity:0; transition:opacity .3s ease, top .3s ease; pointer-events:none;
+    box-shadow:0 8px 24px rgba(0,0,0,.4); opacity:0; transition:opacity .3s ease, top .3s ease; pointer-events:none; text-align:center;
   }
   .toast.show{opacity:1; top:26px;}
 
   /* ---------- Result screen ---------- */
   #result{justify-content:center; align-items:center; text-align:center;}
   .result-tag{font-size:13px; letter-spacing:3px; color:var(--muted); text-transform:uppercase; margin-bottom:6px;}
-  .result-title{font-size:38px; font-weight:700; margin:0 0 24px;}
+  .result-title{font-size:38px; font-weight:700; margin:0 0 10px;}
   .result-title.win{color:var(--p1);}
   .result-title.lose{color:var(--danger);}
   .result-title.draw{color:var(--gold);}
+  .new-highscore-badge{
+    background:linear-gradient(135deg, var(--gold), #ff9f43); color:#2b1d00;
+    font-size:12px; font-weight:700; padding:4px 12px; border-radius:20px;
+    margin-bottom:18px; display:none; animation:pulse 1s infinite alternate;
+  }
   .result-scores{display:flex; gap:14px; width:100%; margin-bottom:28px;}
   .result-scores .player-card{padding:16px 12px;}
   .result-scores .score{font-size:30px;}
@@ -256,6 +317,12 @@
   .color-dot{width:28px; height:28px; border-radius:50%; border:2px solid transparent; cursor:pointer;}
   .color-dot.active{border-color:#fff; transform:scale(1.1);}
 
+  /* Image block upload UI */
+  .img-preview-box{
+    width:42px; height:42px; border-radius:8px; border:1px solid var(--line); background-size:cover; background-position:center;
+    background-color:var(--cell); flex-shrink:0; display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:10px;
+  }
+
   .switch{position:relative; width:42px; height:24px; flex-shrink:0;}
   .switch input{opacity:0; width:0; height:0;}
   .switch .track{position:absolute; inset:0; background:#31385e; border-radius:20px; transition:background .15s ease;}
@@ -290,7 +357,24 @@
     <span></span><span></span><span></span>
   </div>
   <h1 class="title display">BLOCK BLAST <span class="accent">DUEL</span></h1>
-  <p class="subtitle">Xếp khối, phá dòng, ghi điểm. Chọn chế độ hoặc tạo phòng 1v1 online.</p>
+  <p class="subtitle">Xếp khối, phá dòng, ghi điểm. Thách đấu online hoặc chơi thư giãn.</p>
+
+  <!-- Highscore Bar -->
+  <div class="highscore-bar display">
+    🏆 Kỷ lục cao nhất: <span id="homeBestScore" style="color:#fff;">0</span>
+  </div>
+
+  <!-- Win Count Bar -->
+  <div class="wincount-bar display">
+    <div class="wincount-item">
+      <span>👤 Player Thắng:</span>
+      <span class="wincount-val p1" id="homePlayerWins">0</span>
+    </div>
+    <div class="wincount-item">
+      <span>🤖 Bot Thắng:</span>
+      <span class="wincount-val p2" id="homeBotWins">0</span>
+    </div>
+  </div>
 
   <div class="home-actions">
     <button class="btn-primary" id="btnCreate">⚡ Tạo phòng 1v1 Online</button>
@@ -338,11 +422,22 @@
     <div class="waiting-row"><span class="dot-spin"></span> Đang chờ đối thủ tham gia...</div>
   </div>
 
-  <div style="margin-top:16px;">
-    <button class="icon-btn" id="btnUserSettings">⚙️ Cài đặt & Player Profile</button>
+  <!-- Global Leaderboard UI -->
+  <div class="leaderboard-card">
+    <div class="leaderboard-title display">
+      <span>🌍 BẢNG XẾP HẠNG TOÀN CẦU</span>
+      <button class="admin-btn" id="btnRefreshLeaderboard" style="padding:4px 8px; font-size:10px;">🔄</button>
+    </div>
+    <div class="leaderboard-list" id="leaderboardList">
+      <div style="text-align:center; font-size:12px; color:var(--muted); padding:8px;">Đang tải dữ liệu...</div>
+    </div>
   </div>
 
-  <p class="footer-hint">Mẹo: Mở cài đặt để đổi màu khối, giao diện và cài đặt âm thanh.</p>
+  <div style="margin-top:16px;">
+    <button class="icon-btn" id="btnUserSettings">⚙️ Cài đặt & Custom Block</button>
+  </div>
+
+  <p class="footer-hint">Mẹo: Bạn có thể tải ảnh bất kỳ lên để làm khối gạch trong phần Cài đặt.</p>
 </div>
 
 <!-- GAME -->
@@ -360,10 +455,13 @@
     <div class="player-card me">
       <div class="who"><span class="status-dot" id="meDot"></span> <span id="meLabel">BẠN</span></div>
       <div class="score display" id="meScore">0</div>
+      <div class="best-tag">BEST: <span id="gameBestScore">0</span></div>
+      <div class="win-tag" id="meWinTag">Thắng: <span id="gameMeWins">0</span></div>
     </div>
     <div class="player-card opp" id="oppCard">
       <div class="who"><span class="status-dot" id="oppDot"></span> <span id="oppLabel">ĐỐI THỦ</span></div>
       <div class="score display" id="oppScore">–</div>
+      <div class="win-tag" id="oppWinTag" style="display:none;">Thắng: <span id="gameOppWins">0</span></div>
     </div>
   </div>
 
@@ -383,6 +481,8 @@
 <div id="result" class="screen">
   <div class="result-tag display">KẾT QUẢ TRẬN ĐẤU</div>
   <div class="result-title display" id="resultTitle">—</div>
+  <div class="new-highscore-badge display" id="newHighscoreBadge">🎉 KỶ LỤC MỚI!</div>
+  
   <div class="result-scores">
     <div class="player-card me">
       <div class="who"><span class="status-dot"></span> <span id="resMeLabel">BẠN</span></div>
@@ -401,38 +501,82 @@
 <!-- USER SETTINGS & PLAYER MODAL -->
 <div class="modal-overlay" id="userSettingsOverlay">
   <div class="modal-sheet">
-    <div class="modal-title display">⚙️ Cài Đặt Player</div>
-    <p class="modal-sub">Tùy chỉnh trải nghiệm cá nhân và thông tin người chơi.</p>
+    <div class="modal-title display">⚙️ Cài Đặt Player Pro</div>
+    <p class="modal-sub">Tùy chỉnh thông tin cá nhân, khối ảnh custom và đồ họa.</p>
 
     <!-- Player Settings -->
     <div class="setting-group">
-      <h4>Hồ Sơ Người Chơi</h4>
+      <h4>Hồ Sơ & Màu Sắc</h4>
       <div class="setting-row">
         <div>
           <div class="lbl">Tên hiển thị</div>
-          <div class="desc">Tên xuất hiện trong phòng đấu</div>
+          <div class="desc">Tên xuất hiện trong trận đấu</div>
         </div>
         <input type="text" id="settingPlayerName" class="setting-input" maxlength="12" style="width:120px; text-align:right;">
       </div>
       <div class="setting-row" style="flex-direction:column; align-items:flex-start; gap:8px;">
         <div>
-          <div class="lbl">Màu khối ưu tiên</div>
+          <div class="lbl">Màu khối mặc định</div>
           <div class="desc">Chọn tông màu khối gạch của bạn</div>
         </div>
         <div class="color-picker-row" id="colorPickerRow"></div>
       </div>
     </div>
 
-    <!-- Interface & Theme -->
+    <!-- Custom Image Block -->
     <div class="setting-group">
-      <h4>Giao Diện & Âm Thanh</h4>
+      <h4>🖼️ Custom Image Block (Khối Hình Ảnh)</h4>
       <div class="setting-row">
         <div>
-          <div class="lbl">Chủ đề (Theme)</div>
-          <div class="desc">Đổi màu sắc ứng dụng</div>
+          <div class="lbl">Sử dụng khối hình ảnh</div>
+          <div class="desc">Dùng ảnh thay cho khối màu</div>
+        </div>
+        <label class="switch"><input type="checkbox" id="settingUseCustomImg"><span class="track"></span></label>
+      </div>
+      <div class="setting-row" style="flex-direction:column; align-items:flex-start; gap:10px;">
+        <div style="display:flex; justify-content:space-between; width:100%; align-items:center;">
+          <div>
+            <div class="lbl">Tải ảnh khối lên</div>
+            <div class="desc">Chọn tệp ảnh từ thiết bị</div>
+          </div>
+          <div class="img-preview-box" id="imgPreviewBox">Chưa chọn</div>
+        </div>
+        <input type="file" id="settingImgFile" accept="image/*" style="display:none;">
+        <div style="display:flex; gap:8px; width:100%;">
+          <button class="admin-btn" id="btnSelectImgFile" style="flex:1;">📁 Chọn Tệp Ảnh</button>
+          <button class="admin-btn danger" id="btnClearImgFile">Xóa Ảnh</button>
+        </div>
+        <input type="text" id="settingImgUrl" class="setting-input" placeholder="Hoặc dán URL hình ảnh tại đây..." style="width:100%;">
+      </div>
+    </div>
+
+    <!-- Game Mechanics & Visuals -->
+    <div class="setting-group">
+      <h4>Đồ Họa & Cảm Giác Chơi</h4>
+      <div class="setting-row">
+        <div>
+          <div class="lbl">Đường lưới bàn cờ</div>
+          <div class="desc">Hiển thị khung viền ô vuông</div>
+        </div>
+        <label class="switch"><input type="checkbox" id="settingGridLines" checked><span class="track"></span></label>
+      </div>
+      <div class="setting-row">
+        <div>
+          <div class="lbl">Độ rõ của vị trí đặt khối</div>
+          <div class="desc">Độ trong suốt viền preview</div>
+        </div>
+        <select id="settingPreviewOpacity" class="setting-input">
+          <option value="0.2">Nhạt (20%)</option>
+          <option value="0.35">Vừa (35%)</option>
+          <option value="0.6">Đậm (60%)</option>
+        </select>
+      </div>
+      <div class="setting-row">
+        <div>
+          <div class="lbl">Chủ đề ứng dụng (Theme)</div>
         </div>
         <select id="settingTheme" class="setting-input">
-          <option value="default">Cyber Neon (Mặc định)</option>
+          <option value="default">Cyber Neon</option>
           <option value="sunset">Sunset Glow</option>
           <option value="emerald">Emerald Dark</option>
         </select>
@@ -440,29 +584,26 @@
       <div class="setting-row">
         <div>
           <div class="lbl">Hiệu ứng âm thanh (SFX)</div>
-          <div class="desc">Tiếng đặt khối và phá dòng</div>
         </div>
         <label class="switch"><input type="checkbox" id="settingSound" checked><span class="track"></span></label>
       </div>
       <div class="setting-row">
         <div>
           <div class="lbl">Rung khi chơi (Vibration)</div>
-          <div class="desc">Phản hồi lực trên thiết bị di động</div>
         </div>
         <label class="switch"><input type="checkbox" id="settingVibe" checked><span class="track"></span></label>
       </div>
-    </div>
-
-    <!-- Gameplay Settings -->
-    <div class="setting-group">
-      <h4>Trận Đấu</h4>
       <div class="setting-row">
         <div>
           <div class="lbl">Gợi ý nước đi</div>
-          <div class="desc">Hiển thị viền vị trí thả khối</div>
         </div>
         <label class="switch"><input type="checkbox" id="settingHints" checked><span class="track"></span></label>
       </div>
+    </div>
+
+    <div class="setting-group">
+      <h4>Dữ Liệu Cá Nhân</h4>
+      <button class="admin-btn danger wide" id="btnResetHighscores">🗑️ Xóa kỷ lục điểm số</button>
     </div>
 
     <button class="btn-primary" id="btnCloseUserSettings" style="width:100%;">Lưu & Đóng</button>
@@ -492,7 +633,7 @@
 <div class="modal-overlay" id="adminPanelOverlay">
   <div class="modal-sheet">
     <div class="modal-title display">🛠️ Bảng điều khiển Admin</div>
-    <p class="modal-sub">Các thay đổi áp dụng tức thì trên thiết bị này.</p>
+    <p class="modal-sub">Thay đổi thông số hệ thống và hỗ trợ thử nghiệm.</p>
 
     <div class="admin-section">
       <h4>Điểm của bạn</h4>
@@ -600,9 +741,175 @@
     [[0,1],[1,0],[1,1],[2,0]]
   ];
   var POLL_MS = 1500;
-
-  // Cập nhật PASSWORD mới theo yêu cầu
   var ADMIN_PASSWORD = "123;!?890";
+  var GLOBAL_LEADERBOARD_KEY = "bb_global_leaderboard_data";
+
+  /* ================= High Score LocalStorage Management ================= */
+  var HIGH_SCORES = {
+    global: 0,
+    bot: 0,
+    timeattack: 0,
+    zen: 0,
+    online: 0
+  };
+
+  /* ================= Win Counter LocalStorage Management ================= */
+  var WIN_COUNTS = {
+    player: 0,
+    bot: 0
+  };
+
+  function loadWinCounts() {
+    try {
+      var saved = localStorage.getItem("bb_win_counts");
+      if (saved) {
+        var parsed = JSON.parse(saved);
+        WIN_COUNTS.player = parsed.player || 0;
+        WIN_COUNTS.bot = parsed.bot || 0;
+      }
+    } catch(e){}
+    updateWinCountUI();
+  }
+
+  function saveWinCounts() {
+    try {
+      localStorage.setItem("bb_win_counts", JSON.stringify(WIN_COUNTS));
+    } catch(e){}
+    updateWinCountUI();
+  }
+
+  function updateWinCountUI() {
+    $("homePlayerWins").textContent = WIN_COUNTS.player;
+    $("homeBotWins").textContent = WIN_COUNTS.bot;
+    $("gameMeWins").textContent = WIN_COUNTS.player;
+    $("gameOppWins").textContent = WIN_COUNTS.bot;
+  }
+
+  function incrementWinCount(winner) {
+    if (winner === "player") {
+      WIN_COUNTS.player++;
+    } else if (winner === "bot") {
+      WIN_COUNTS.bot++;
+    }
+    saveWinCounts();
+  }
+
+  function loadHighScores() {
+    try {
+      var saved = localStorage.getItem("bb_high_scores");
+      if (saved) {
+        var parsed = JSON.parse(saved);
+        for (var k in parsed) HIGH_SCORES[k] = parsed[k] || 0;
+      }
+    } catch(e){}
+    updateHighScoreUI();
+  }
+
+  function saveHighScores() {
+    try {
+      localStorage.setItem("bb_high_scores", JSON.stringify(HIGH_SCORES));
+    } catch(e){}
+    updateHighScoreUI();
+  }
+
+  function updateHighScoreUI() {
+    var maxS = Math.max(HIGH_SCORES.global, HIGH_SCORES.bot, HIGH_SCORES.timeattack, HIGH_SCORES.zen, HIGH_SCORES.online);
+    $("homeBestScore").textContent = maxS;
+  }
+
+  function getModeBestScore(mode) {
+    return HIGH_SCORES[mode] || HIGH_SCORES.global || 0;
+  }
+
+  function checkAndUpdateHighScore(mode, score) {
+    var isNew = false;
+    if (score > (HIGH_SCORES[mode] || 0)) {
+      HIGH_SCORES[mode] = score;
+      isNew = true;
+    }
+    if (score > HIGH_SCORES.global) {
+      HIGH_SCORES.global = score;
+      isNew = true;
+    }
+    if (isNew) {
+      saveHighScores();
+      submitGlobalLeaderboardScore(USER_SETTINGS.playerName, HIGH_SCORES.global);
+    }
+    return isNew;
+  }
+
+  /* ================= Global Leaderboard Logic ================= */
+  async function submitGlobalLeaderboardScore(name, score) {
+    if (!score || score <= 0) return;
+    try {
+      var currentList = [];
+      var res = await window.storage.get(GLOBAL_LEADERBOARD_KEY, true);
+      if (res && res.value) {
+        currentList = JSON.parse(res.value);
+      }
+      
+      // Update or add user score
+      var found = false;
+      for (var i = 0; i < currentList.length; i++) {
+        if (currentList[i].name === name) {
+          if (score > currentList[i].score) {
+            currentList[i].score = score;
+          }
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        currentList.push({ name: name, score: score });
+      }
+
+      // Sort descending and keep top 10
+      currentList.sort(function(a, b) { return b.score - a.score; });
+      currentList = currentList.slice(0, 10);
+
+      await window.storage.set(GLOBAL_LEADERBOARD_KEY, JSON.stringify(currentList), true);
+      renderLeaderboardUI(currentList);
+    } catch(e) {}
+  }
+
+  async function fetchGlobalLeaderboard() {
+    var listEl = $("leaderboardList");
+    listEl.innerHTML = '<div style="text-align:center; font-size:12px; color:var(--muted); padding:8px;">Đang tải dữ liệu...</div>';
+    try {
+      var res = await window.storage.get(GLOBAL_LEADERBOARD_KEY, true);
+      var currentList = [];
+      if (res && res.value) {
+        currentList = JSON.parse(res.value);
+      }
+      renderLeaderboardUI(currentList);
+    } catch(e) {
+      listEl.innerHTML = '<div style="text-align:center; font-size:12px; color:var(--muted); padding:8px;">Chưa có dữ liệu bảng xếp hạng.</div>';
+    }
+  }
+
+  function renderLeaderboardUI(list) {
+    var listEl = $("leaderboardList");
+    listEl.innerHTML = "";
+    if (!list || list.length === 0) {
+      listEl.innerHTML = '<div style="text-align:center; font-size:12px; color:var(--muted); padding:8px;">Chưa có kỷ lục nào. Hãy ghi điểm!</div>';
+      return;
+    }
+
+    list.forEach(function(item, idx) {
+      var div = document.createElement("div");
+      div.className = "leaderboard-item";
+      var rankCls = idx === 0 ? "top1" : (idx === 1 ? "top2" : (idx === 2 ? "top3" : ""));
+      div.innerHTML = 
+        '<span class="leaderboard-rank ' + rankCls + '">#' + (idx + 1) + '</span>' +
+        '<span class="leaderboard-name">' + escapeHtml(item.name) + '</span>' +
+        '<span class="leaderboard-score">' + item.score + '</span>';
+      listEl.appendChild(div);
+    });
+  }
+
+  function escapeHtml(str) {
+    return String(str || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
 
   /* ================= Audio & Effects ================= */
   var audioCtx = null;
@@ -644,7 +951,11 @@
     theme: "default",
     sound: true,
     vibe: true,
-    hints: true
+    hints: true,
+    useCustomImg: false,
+    customImgData: "",
+    gridLines: true,
+    previewOpacity: "0.35"
   };
 
   function loadUserSettings() {
@@ -667,11 +978,28 @@
 
   function applyUserSettingsUI() {
     document.body.className = USER_SETTINGS.theme === "default" ? "" : "theme-" + USER_SETTINGS.theme;
+    if (!USER_SETTINGS.gridLines) document.body.classList.add("no-grid-lines");
+    else document.body.classList.remove("no-grid-lines");
+
+    document.documentElement.style.setProperty('--preview-opacity', USER_SETTINGS.previewOpacity || "0.35");
+
     $("settingPlayerName").value = USER_SETTINGS.playerName;
     $("settingTheme").value = USER_SETTINGS.theme;
     $("settingSound").checked = USER_SETTINGS.sound;
     $("settingVibe").checked = USER_SETTINGS.vibe;
     $("settingHints").checked = USER_SETTINGS.hints;
+    $("settingUseCustomImg").checked = USER_SETTINGS.useCustomImg;
+    $("settingGridLines").checked = USER_SETTINGS.gridLines;
+    $("settingPreviewOpacity").value = USER_SETTINGS.previewOpacity;
+
+    var previewBox = $("imgPreviewBox");
+    if (USER_SETTINGS.customImgData) {
+      previewBox.style.backgroundImage = "url('" + USER_SETTINGS.customImgData + "')";
+      previewBox.textContent = "";
+    } else {
+      previewBox.style.backgroundImage = "none";
+      previewBox.textContent = "Chưa chọn";
+    }
 
     // Build color picker
     var row = $("colorPickerRow");
@@ -748,9 +1076,12 @@
   function pickPiece(){
     var idx = Math.floor(rng()*SHAPES.length);
     var cidx = Math.floor(rng()*COLORS.length);
-    // Sử dụng màu custom của player với xác suất 40%
     var color = (Math.random() < 0.4) ? USER_SETTINGS.customColor : COLORS[cidx];
-    return { shape: SHAPES[idx], color: color };
+    
+    // Nếu bật Custom Image Block
+    var img = (USER_SETTINGS.useCustomImg && USER_SETTINGS.customImgData) ? USER_SETTINGS.customImgData : null;
+
+    return { shape: SHAPES[idx], color: color, img: img };
   }
 
   /* ================= Board Logic ================= */
@@ -774,9 +1105,9 @@
     }
     return true;
   }
-  function placeShape(board, shape, row, col, color){
+  function placeShape(board, shape, row, col, fillObj){
     for (var i=0;i<shape.length;i++){
-      board[row+shape[i][0]][col+shape[i][1]] = color;
+      board[row+shape[i][0]][col+shape[i][1]] = fillObj;
     }
   }
   function findClears(board){
@@ -868,10 +1199,17 @@
         var el = cellEls[r][c];
         if (val){
           el.classList.add("filled");
-          el.style.background = val;
+          if (typeof val === "object" && val.img) {
+            el.style.backgroundImage = "url('" + val.img + "')";
+            el.style.backgroundColor = "transparent";
+          } else {
+            el.style.backgroundImage = "none";
+            el.style.backgroundColor = (typeof val === "object") ? val.color : val;
+          }
         } else {
           el.classList.remove("filled");
-          el.style.background = "";
+          el.style.backgroundImage = "none";
+          el.style.backgroundColor = "";
         }
       }
     }
@@ -896,12 +1234,21 @@
           mg.style.gridTemplateRows = "repeat(" + b.rows + "," + cellPx + "px)";
           var grid = [];
           for (var rr=0; rr<b.rows*b.cols; rr++){ grid.push(null); }
-          S.tray[i].shape.forEach(function(cell){ grid[cell[0]*b.cols+cell[1]] = S.tray[i].color; });
-          grid.forEach(function(color){
+          S.tray[i].shape.forEach(function(cell){ grid[cell[0]*b.cols+cell[1]] = S.tray[i]; });
+          grid.forEach(function(item){
             var mc = document.createElement("div");
             mc.className = "mini-cell";
-            mc.style.background = color || "transparent";
-            mc.style.boxShadow = color ? "" : "none";
+            if (item) {
+              if (item.img) {
+                mc.style.backgroundImage = "url('" + item.img + "')";
+                mc.style.backgroundColor = "transparent";
+              } else {
+                mc.style.backgroundColor = item.color;
+              }
+            } else {
+              mc.style.backgroundColor = "transparent";
+              mc.style.boxShadow = "none";
+            }
             mg.appendChild(mc);
           });
           slot.appendChild(mg);
@@ -928,12 +1275,21 @@
     ghost.style.gridTemplateRows = "repeat(" + b.rows + "," + cellPx + "px)";
     var grid = [];
     for (var i=0;i<b.rows*b.cols;i++){ grid.push(null); }
-    piece.shape.forEach(function(cell){ grid[cell[0]*b.cols+cell[1]] = piece.color; });
-    grid.forEach(function(color){
+    piece.shape.forEach(function(cell){ grid[cell[0]*b.cols+cell[1]] = piece; });
+    grid.forEach(function(item){
       var gc = document.createElement("div");
       gc.className = "g-cell";
-      gc.style.background = color || "transparent";
-      gc.style.boxShadow = color ? "" : "none";
+      if (item) {
+        if (item.img) {
+          gc.style.backgroundImage = "url('" + item.img + "')";
+          gc.style.backgroundColor = "transparent";
+        } else {
+          gc.style.backgroundColor = item.color;
+        }
+      } else {
+        gc.style.backgroundColor = "transparent";
+        gc.style.boxShadow = "none";
+      }
       ghost.appendChild(gc);
     });
     document.body.appendChild(ghost);
@@ -1006,7 +1362,8 @@
   }
 
   function commitPlacement(idx, piece, row, col){
-    placeShape(S.board, piece.shape, row, col, piece.color);
+    var fillObj = { color: piece.color, img: piece.img };
+    placeShape(S.board, piece.shape, row, col, fillObj);
     S.score += piece.shape.length;
     S.tray[idx] = null;
     playSound("place");
@@ -1031,7 +1388,6 @@
     renderTray();
     updateMyUI();
 
-    // Trong Zen Mode không bao giờ Game Over
     if (S.mode === "zen") return;
 
     if (!S.godMode && !anyPieceFits(S.board, S.tray)){
@@ -1045,6 +1401,7 @@
   function updateMyUI(){
     $("meScore").textContent = S.score;
     $("meDot").classList.toggle("out", !S.alive);
+    $("gameBestScore").textContent = Math.max(S.score, getModeBestScore(S.mode));
   }
   function updateOppUI(){
     $("oppScore").textContent = (S.oppScore===null) ? "–" : S.oppScore;
@@ -1072,6 +1429,10 @@
     if (S.modeTimer) clearInterval(S.modeTimer);
     banner(null);
 
+    // Save & Check HighScore
+    var isNewHigh = checkAndUpdateHighScore(S.mode, S.score);
+    $("newHighscoreBadge").style.display = isNewHigh ? "inline-block" : "none";
+
     var meS = S.score;
     var oppS = S.oppScore===null ? 0 : S.oppScore;
     $("resMeScore").textContent = meS;
@@ -1085,8 +1446,14 @@
       title.classList.add("win");
     } else {
       $("resOppCard").style.display = "block";
-      if (meS > oppS){ title.textContent = "CHIẾN THẮNG!"; title.classList.add("win"); }
-      else if (meS < oppS){ title.textContent = "THUA CUỘC"; title.classList.add("lose"); }
+      if (meS > oppS){
+        title.textContent = "CHIẾN THẮNG!"; title.classList.add("win");
+        if (S.mode === "bot") incrementWinCount("player");
+      }
+      else if (meS < oppS){
+        title.textContent = "THUA CUỘC"; title.classList.add("lose");
+        if (S.mode === "bot") incrementWinCount("bot");
+      }
       else { title.textContent = "HÒA!"; title.classList.add("draw"); }
     }
     showScreen("result");
@@ -1130,7 +1497,7 @@
   function botPick(){
     var idx = Math.floor(S.bot.rng()*SHAPES.length);
     var cidx = Math.floor(S.bot.rng()*COLORS.length);
-    return { shape: SHAPES[idx], color: COLORS[cidx] };
+    return { shape: SHAPES[idx], color: COLORS[cidx], img: null };
   }
 
   function countAdjacentFilled(board, shape, row, col){
@@ -1244,9 +1611,9 @@
     $("resMeLabel").textContent = USER_SETTINGS.playerName || "BẠN";
     updateMyUI();
     updateOppUI();
+    updateWinCountUI();
     banner(null);
 
-    // Dynamic UI according to mode
     $("timerBadge").classList.remove("active");
     $("btnZenClear").style.display = (S.mode === "zen") ? "inline-block" : "none";
     $("btnGiveUp").style.display = (S.mode === "zen") ? "none" : "inline-block";
@@ -1259,11 +1626,15 @@
       ml.textContent = "🤖 vs Bot · " + (S.bot.cfg.label || "");
       $("oppLabel").textContent = "🤖 BOT";
       $("resOppLabel").textContent = "🤖 BOT";
+      $("meWinTag").style.display = "inline-block";
+      $("oppWinTag").style.display = "inline-block";
     } else if (S.mode === "timeattack"){
       $("codeTilesGame").style.display = "none";
       $("modeLabel").style.display = "flex";
       $("modeLabel").textContent = "⏱️ Time Attack";
       $("timerBadge").classList.add("active");
+      $("meWinTag").style.display = "none";
+      $("oppWinTag").style.display = "none";
       S.timeLeft = 60;
       $("timerVal").textContent = S.timeLeft;
       if (S.modeTimer) clearInterval(S.modeTimer);
@@ -1279,11 +1650,15 @@
       $("codeTilesGame").style.display = "none";
       $("modeLabel").style.display = "flex";
       $("modeLabel").textContent = "🧘 Zen Mode (10x10)";
+      $("meWinTag").style.display = "none";
+      $("oppWinTag").style.display = "none";
     } else {
       $("modeLabel").style.display = "none";
       $("codeTilesGame").style.display = "flex";
       $("oppLabel").textContent = "ĐỐI THỦ";
       $("resOppLabel").textContent = "ĐỐI THỦ";
+      $("meWinTag").style.display = "none";
+      $("oppWinTag").style.display = "none";
       renderCodeTiles($("codeTilesGame"), S.code);
     }
 
@@ -1380,6 +1755,9 @@
     $("joinInput").value = "";
     $("joinError").textContent = "";
     banner(null);
+    updateHighScoreUI();
+    updateWinCountUI();
+    fetchGlobalLeaderboard();
     showScreen("home");
   }
 
@@ -1400,6 +1778,8 @@
     $("botBox").classList.remove("active");
     $("soloBox").classList.add("active");
   });
+
+  $("btnRefreshLeaderboard").addEventListener("click", fetchGlobalLeaderboard);
 
   document.querySelectorAll(".bot-diff").forEach(function(btn){
     btn.addEventListener("click", function(){ startBotMatch(btn.dataset.diff); });
@@ -1434,7 +1814,54 @@
     }
   });
 
-  /* User Settings Events */
+  /* User Custom Image Upload Logic */
+  $("btnSelectImgFile").addEventListener("click", function(){
+    $("settingImgFile").click();
+  });
+
+  $("settingImgFile").addEventListener("change", function(e){
+    var file = e.target.files[0];
+    if (file) {
+      var reader = new FileReader();
+      reader.onload = function(evt) {
+        USER_SETTINGS.customImgData = evt.target.result;
+        USER_SETTINGS.useCustomImg = true;
+        saveUserSettings();
+        toast("Đã tải ảnh lên thành công!");
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  $("settingImgUrl").addEventListener("change", function(e){
+    var url = e.target.value.trim();
+    if (url) {
+      USER_SETTINGS.customImgData = url;
+      USER_SETTINGS.useCustomImg = true;
+      saveUserSettings();
+      toast("Đã áp dụng URL ảnh!");
+    }
+  });
+
+  $("btnClearImgFile").addEventListener("click", function(){
+    USER_SETTINGS.customImgData = "";
+    USER_SETTINGS.useCustomImg = false;
+    $("settingImgUrl").value = "";
+    saveUserSettings();
+    toast("Đã xóa ảnh custom.");
+  });
+
+  $("btnResetHighscores").addEventListener("click", function(){
+    if (confirm("Bạn có chắc chắn muốn xóa toàn bộ kỷ lục điểm số không?")) {
+      HIGH_SCORES = { global: 0, bot: 0, timeattack: 0, zen: 0, online: 0 };
+      WIN_COUNTS = { player: 0, bot: 0 };
+      saveHighScores();
+      saveWinCounts();
+      toast("Đã đặt lại dữ liệu cá nhân.");
+    }
+  });
+
+  /* User Settings Modal Events */
   $("btnUserSettings").addEventListener("click", function(){
     openOverlay("userSettingsOverlay");
   });
@@ -1444,8 +1871,15 @@
     USER_SETTINGS.sound = $("settingSound").checked;
     USER_SETTINGS.vibe = $("settingVibe").checked;
     USER_SETTINGS.hints = $("settingHints").checked;
+    USER_SETTINGS.useCustomImg = $("settingUseCustomImg").checked;
+    USER_SETTINGS.gridLines = $("settingGridLines").checked;
+    USER_SETTINGS.previewOpacity = $("settingPreviewOpacity").value;
+
     saveUserSettings();
     closeOverlay("userSettingsOverlay");
+    if (HIGH_SCORES.global > 0) {
+      submitGlobalLeaderboardScore(USER_SETTINGS.playerName, HIGH_SCORES.global);
+    }
     toast("Đã lưu cài đặt!");
   });
 
@@ -1467,7 +1901,6 @@
   $("adminPwCancel").addEventListener("click", function(){ closeOverlay("adminLoginOverlay"); });
   $("adminPwInput").addEventListener("keydown", function(e){ if (e.key === "Enter") $("adminPwSubmit").click(); });
   
-  // Xử lý đăng nhập Admin bằng Passcode mới
   $("adminPwSubmit").addEventListener("click", function(){
     var val = $("adminPwInput").value;
     if (val === ADMIN_PASSWORD){
@@ -1640,26 +2073,26 @@
           rows.push({k:keys[i], v:"(không tồn tại)"});
         }
       }
-      listEl.innerHTML = rows.map(function(r){
-        return '<div class="srow"><span>'+r.k+'</span><span>'+ (r.v.length>40 ? r.v.slice(0,40)+"…" : r.v) +'</span></div>';
-      }).join("");
-    }catch(err){
-      listEl.textContent = "Lỗi tải dữ liệu.";
-    }
+      listEl.innerHTML = "";
+      rows.forEach(function(r){
+        var div = document.createElement("div");
+        div.className = "srow";
+        div.innerHTML = "<span style='font-weight:600;'>"+r.k+":</span> <span>"+r.v+"</span>";
+        listEl.appendChild(div);
+      });
+    }catch(e){ listEl.textContent = "Lỗi đọc dữ liệu."; }
   }
-  $("adminRefreshStorageBtn").addEventListener("click", refreshStorageList);
 
+  $("adminRefreshStorageBtn").addEventListener("click", refreshStorageList);
   $("adminClearRoomBtn").addEventListener("click", async function(){
     if (!S.code) return;
     try{
-      await window.storage.delete(keyMeta(S.code), true);
-      await window.storage.delete(keyP(S.code,1), true);
-      await window.storage.delete(keyP(S.code,2), true);
-      toast("Đã xóa dữ liệu phòng " + S.code);
+      await window.storage.set(keyMeta(S.code), "", true);
+      await window.storage.set(keyP(S.code,1), "", true);
+      await window.storage.set(keyP(S.code,2), "", true);
+      toast("Đã xóa dữ liệu phòng.");
       refreshStorageList();
-    }catch(err){
-      toast("Không thể xóa dữ liệu phòng.");
-    }
+    }catch(e){ toast("Không thể xóa dữ liệu phòng."); }
   });
 
   $("adminResetAppBtn").addEventListener("click", function(){
@@ -1667,8 +2100,11 @@
     resetToHome();
   });
 
-  /* Init */
+  // Init App
   loadUserSettings();
+  loadHighScores();
+  loadWinCounts();
+  fetchGlobalLeaderboard();
 
 })();
 </script>
